@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Pomodoro</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="assets/css/styles.min.css">
+    <link rel="stylesheet" href="assets/font-awesome-4.7.0/css/font-awesome.css">
+</head>
+
+<body>
+    <h1 class="text-center"><strong>Pomodoro Web Application</strong></h1>
+    <main style="margin: 40px;">
+        <div class="container">
+            <div class="row">
+                <div class="col" id="clock">
+                    <ul>
+                        <li><span id="minutes"></span>Minutes</li>
+                        <li><span id="seconds"></span>Seconds</li>
+                    </ul>
+                    <ul>
+                        <li>
+                            <button id="volume">
+                                <i class="fa fa-fw fa-volume-up fa-2x"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button id="play">
+                                <i class="fa fa-fw fa-play-circle fa-2x"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button id="skip">
+                                <i class="fa fa-fw fa-forward fa-2x"></i>
+                            </button>
+                        </li>
+                        <li></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" id="sliders">
+                    <div id="work-label">
+                        <h5>
+                            Work: 25' | Break: 5'
+                        </h5>
+                    </div>
+                    <input id="work-slider" type="range" min="0" max="2" value="0">
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer-basic">
+        <div class="social">
+            <a href="#"><i class="icon ion-social-linkedin"></i></a>
+            <a href="#"><i class="icon ion-social-github"></i></a>
+            <a href="#"><i class="icon ion-social-twitter"></i></a>
+            <a href="#"><i class="icon ion-social-facebook"></i></a>
+        </div>
+        <!--
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Home</a></li>
+            <li class="list-inline-item"><a href="#">Services</a></li>
+            <li class="list-inline-item"><a href="#">About</a></li>
+            <li class="list-inline-item"><a href="#">Terms</a></li>
+            <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+        </ul>
+        -->
+        <p class="copyright">Giannis Giakoumakis © 2021</p>
+    </footer>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+<script src="assets/js/pomodoro.js"></script>
+
+</html>
