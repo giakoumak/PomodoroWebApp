@@ -9,10 +9,8 @@ var breakAudioFiles = [
     "assets/music/hagridsHut5.mp3"
 ];
 
-var workMusic = new Audio(workAudioFiles[document.getElementById("work-slider").value]);
-var breakMusic = new Audio(breakAudioFiles[document.getElementById("work-slider").value]);
-var workBell = new Audio("assets/notifications/metalGong.mp3");
-var breakBell = new Audio("assets/notifications/frontDeskBells.mp3");
+var music = new Audio(workAudioFiles[document.getElementById("work-slider").value]);
+var bell = new Audio("assets/notifications/metalGong.mp3");
 
 var work = true;
 var play = false;
@@ -29,9 +27,11 @@ function changeSession() {
     if (work == true) {
         work = false;
         remaining = breakValues[document.getElementById("work-slider").value] * 60;
+        music.src = breakAudioFiles[document.getElementById("work-slider").value];
     } else {
         work = true;
         remaining = workValues[document.getElementById("work-slider").value] * 60;
+        music.src = workAudioFiles[document.getElementById("work-slider").value];
     }
 
     fresh = true;
@@ -59,15 +59,10 @@ function displayCountdown() {
 function startCountdown() {
     // If the countdown is (ready to be) expired, change the session 
     if (remaining < 1) {
-        if (work == true) {
-            playBreakBell();
-            playBreakMusic();
-        } else {
-            playWorkBell();
-            playWorkMusic();
-        }
-
         changeSession();
+        playBell();
+        playMusic();
+        fresh = false;
     }
 
     // Reduce the remaining time by 1 second
@@ -76,30 +71,31 @@ function startCountdown() {
     displayCountdown();
 }
 
-function playWorkBell() {
-    workBell.volume = 0.4;
-    workBell.play();
+function playBell() {
+    if (work == true) {
+        bell = new Audio("assets/notifications/metalGong.mp3");
+    } else {
+        bell = new Audio("assets/notifications/frontDeskBells.mp3");
+    }
+
+    bell.volume = 0.4;
+    bell.play();
 }
 
-function playBreakBell() {
-    breakBell.volume = 0.4;
-    breakBell.play();
+function playMusic() {
+    music.play();
 }
 
-function playWorkMusic() {
-    workMusic.play();
+function pauseMusic() {
+    music.pause();
 }
 
-function pauseWorkMusic() {
-    workMusic.pause();
+function muteMusic() {
+    music.muted = true;
 }
 
-function playBreakMusic() {
-    breakMusic.play();
-}
-
-function pauseBreakMusic() {
-    breakMusic.pause();
+function unmuteMusic() {
+    music.muted = false;
 }
 
 // EVENT HANDLERS SECTION
@@ -111,9 +107,11 @@ document.addEventListener("DOMContentLoaded", displayCountdown);
 document.getElementById("volume").addEventListener("click", function () {
     if (mute == true) {
         document.getElementById("volume").innerHTML = "<i class=\"fa fa-fw fa-volume-up fa-2x\"></i>";
+        unmuteMusic();
         mute = false;
     } else {
         document.getElementById("volume").innerHTML = "<i class=\"fa fa-fw fa-volume-off fa-2x\"></i>";
+        muteMusic();
         mute = true;
     }
 });
@@ -124,39 +122,19 @@ document.getElementById("play").addEventListener("click", function () {
         document.getElementById("play").innerHTML = "<i class=\"fa fa-fw fa-play-circle fa-2x\"></i>";
         document.getElementById("skip").removeAttribute("disabled", "");
         document.getElementById("work-slider").removeAttribute("disabled", "");
-
         clearInterval(timer);
-
-        if (work == true) {
-            pauseWorkMusic();
-        } else {
-            pauseBreakMusic();
-        }
-
+        pauseMusic();
         play = false;
     } else {
         document.getElementById("play").innerHTML = "<i class=\"fa fa-fw fa-pause-circle fa-2x\"></i>";
         document.getElementById("skip").setAttribute("disabled", "");
         document.getElementById("work-slider").setAttribute("disabled", "");
-
         timer = setInterval(startCountdown, 1000);
-
-        if (work == true) {
-            if (fresh == true) {
-                playWorkBell();
-            }
-
-            playWorkMusic();
-        } else {
-            if (fresh == true) {
-                playBreakBell();
-            }
-
-            playBreakMusic();
+        if (fresh == true) {
+            playBell();
         }
-
+        playMusic();
         fresh = false;
-
         play = true;
     }
 });
