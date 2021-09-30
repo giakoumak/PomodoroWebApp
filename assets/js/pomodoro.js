@@ -1,82 +1,108 @@
-var workValues = [2, 45, 50];
-var breakValues = [1, 15, 10];
+// GLOBAL VARIABLES SECTION
 
-var countDownTime = new Date().getTime() +
-    workValues[document.getElementById("work-slider").value] * 60 * 1000;
-var remaining = workValues[document.getElementById("work-slider").value] * 60 * 1000;
+var workValues = [25, 45, 50];
+var breakValues = [5, 15, 10];
+var workAudioFiles = [
+    "assets/music/gryffindor25.mp3"
+];
+var breakAudioFiles = [
+    "assets/music/hagridsHut5.mp3"
+];
 
-var timer;
+var workMusic = new Audio(workAudioFiles[document.getElementById("work-slider").value]);
+var breakMusic = new Audio(breakAudioFiles[document.getElementById("work-slider").value]);
+var workBell = new Audio("assets/notifications/metalGong.mp3");
+var breakBell = new Audio("assets/notifications/frontDeskBells.mp3");
 
-var workMusic = new Audio();
-var breakMusic = new Audio();
-
-var work = false;
+var work = true;
 var play = false;
 var mute = false;
 var fresh = true;
+
+var timer;
+var remaining = workValues[document.getElementById("work-slider").value] * 60;
+
+// FUNCTIONS SECTION
 
 // Change session from work to break and vice versa
 function changeSession() {
     if (work == true) {
         work = false;
-
-        countDownTime = new Date().getTime() +
-            breakValues[document.getElementById("work-slider").value] * 60 * 1000;
+        remaining = breakValues[document.getElementById("work-slider").value] * 60;
     } else {
         work = true;
-
-        countDownTime = new Date().getTime() +
-            workValues[document.getElementById("work-slider").value] * 60 * 1000;
+        remaining = workValues[document.getElementById("work-slider").value] * 60;
     }
 
     fresh = true;
-    remaining = countDownTime;
 }
 
 // Display the countdown timer
 function displayCountdown() {
-    // Time calculations minutes and seconds
-    var minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+    // Time calculations for minutes and seconds
+    var minutes = Math.floor(remaining / 60);
+    var seconds = Math.floor(remaining % 60);
 
     // Add trailing zero if minutes and/or seconds consist of a single digit 
-    if (minutes < 10)
+    if (minutes < 10) {
         minutes = "0" + minutes;
-    if (seconds < 10)
+    }
+    if (seconds < 10) {
         seconds = "0" + seconds;
+    }
 
     document.getElementById("minutes").innerText = minutes;
     document.getElementById("seconds").innerText = seconds;
 }
 
-// Update the count down every 1 second
+// Check and update the remaining time every 1 second
 function startCountdown() {
     // If the countdown is (ready to be) expired, change the session 
-    if (remaining < 1000) {
-        if (work == true)
+    if (remaining < 1) {
+        if (work == true) {
             playBreakBell();
-        else
+            playBreakMusic();
+        } else {
             playWorkBell();
+            playWorkMusic();
+        }
 
         changeSession();
     }
 
-    // Get current date and time
-    var now = new Date().getTime();
-
-    // Find the distance between now and the countdown date
-    remaining = countDownTime - now;
+    // Reduce the remaining time by 1 second
+    remaining -= 1;
 
     displayCountdown();
 }
 
 function playWorkBell() {
-    new Audio("assets/notifications/metalGong.mp3").play();
+    workBell.volume = 0.4;
+    workBell.play();
 }
 
 function playBreakBell() {
-    new Audio("assets/notifications/doorbell.mp3").play();
+    breakBell.volume = 0.4;
+    breakBell.play();
 }
+
+function playWorkMusic() {
+    workMusic.play();
+}
+
+function pauseWorkMusic() {
+    workMusic.pause();
+}
+
+function playBreakMusic() {
+    breakMusic.play();
+}
+
+function pauseBreakMusic() {
+    breakMusic.pause();
+}
+
+// EVENT HANDLERS SECTION
 
 // Upon page load or update, execute initial code to display the timer
 document.addEventListener("DOMContentLoaded", displayCountdown);
@@ -98,13 +124,13 @@ document.getElementById("play").addEventListener("click", function () {
         document.getElementById("play").innerHTML = "<i class=\"fa fa-fw fa-play-circle fa-2x\"></i>";
         document.getElementById("skip").removeAttribute("disabled", "");
         document.getElementById("work-slider").removeAttribute("disabled", "");
-        
-        countDownTime = countDownTime - new Date().getTime();
+
         clearInterval(timer);
-        
-        if (fresh == true) {
-            playBreakBell();
-            fresh = false;
+
+        if (work == true) {
+            pauseWorkMusic();
+        } else {
+            pauseBreakMusic();
         }
 
         play = false;
@@ -113,13 +139,23 @@ document.getElementById("play").addEventListener("click", function () {
         document.getElementById("skip").setAttribute("disabled", "");
         document.getElementById("work-slider").setAttribute("disabled", "");
 
-        countDownTime = new Date().getTime() + remaining;
         timer = setInterval(startCountdown, 1000);
 
-        if (fresh == true) {
-            playWorkBell();
-            fresh = false;
+        if (work == true) {
+            if (fresh == true) {
+                playWorkBell();
+            }
+
+            playWorkMusic();
+        } else {
+            if (fresh == true) {
+                playBreakBell();
+            }
+
+            playBreakMusic();
         }
+
+        fresh = false;
 
         play = true;
     }
@@ -136,8 +172,7 @@ document.getElementById("work-slider").addEventListener("change", function () {
     document.getElementById("work-label").innerHTML = "<h5>Work: " + workValues[this.value] +
         "\' | Break: " + breakValues[this.value] + "\'</h5>";
 
-    countDownTime = workValues[this.value] * 60 * 1000;
-    remaining = countDownTime;
+    remaining = workValues[this.value] * 60;
 
     displayCountdown();
 });
