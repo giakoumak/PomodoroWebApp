@@ -1,7 +1,17 @@
+main {
+    margin: 0;
+    color: #ffffff;
+}
+
+h1 {
+    color: #ffffff;
+}
+
 .footer-basic {
-    padding: 40px 0;
-    background-color: #fff;
-    color: #4b4c4d
+    margin-top: 5%;
+    margin-bottom: 0;
+    padding: 0;
+    color: #ffffff;
 }
 
 .footer-basic ul {
@@ -10,26 +20,26 @@
     text-align: center;
     font-size: 18px;
     line-height: 1.6;
-    margin-bottom: 0
+    margin-bottom: 0;
 }
 
 .footer-basic li {
-    padding: 0 10px
+    padding-bottom: 1%;
 }
 
 .footer-basic ul a {
     color: inherit;
     text-decoration: none;
-    opacity: .8
+    opacity: .8;
 }
 
 .footer-basic ul a:hover {
-    opacity: 1
+    opacity: 1;
 }
 
 .footer-basic .social {
     text-align: center;
-    padding-bottom: 25px
+    padding-bottom: 1%;
 }
 
 .footer-basic .social>a {
@@ -40,10 +50,10 @@
     display: inline-block;
     text-align: center;
     border-radius: 50%;
-    border: 1px solid #ccc;
+    border: 1px solid #ffffff;
     margin: 0 8px;
     color: inherit;
-    opacity: .75
+    opacity: .75;
 }
 
 .footer-basic .social>a:hover {
@@ -54,24 +64,99 @@
     margin-top: 15px;
     text-align: center;
     font-size: 13px;
-    color: #aaa;
-    margin-bottom: 0
+    color: #ffffff;
+    margin-bottom: 0;
 }
 
 div {
     text-align: center;
-    margin: 0.5%;
+    margin: 0%;
 }
 
 li {
     display: inline-block;
-    font-size: 1.5em;
+    font-size: 1rem;
     list-style-type: none;
-    padding: 1em;
+    margin: 0;
+    padding: 0;
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-bottom: 2%;
     text-transform: uppercase;
+}
+
+#clock > ul > li {
+    padding-left: 2%;
+    padding-right: 2%;
+    padding-bottom: 5%;
+    padding-top: 1%;
+}
+
+ul {
+    margin: 0;
 }
 
 li span {
     display: block;
-    font-size: 4.5rem;
+    font-size: 4rem;
+}
+
+#clock {
+    color: #ffffff;
+    margin-top: 5%;
+    margin-bottom: 10%;
+}
+
+#buttons {
+    margin-top: 3%;
+    margin-bottom: 0;
+}
+
+#backgroundMedia {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: -1;
+    margin: 0;
+}
+
+#backgroundMedia > video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+@media (min-aspect-ratio: 16/9) {
+    #backgroungMedia>video {
+        height: 300%;
+        top: -100%;
+    }
+}
+
+@media (max-aspect-ratio: 16/9) {
+    #backgroundMedia>video {
+        width: 300%;
+        left: -100%;
+    }
+}
+
+@supports (object-fit: cover) {
+    #backgroundMedia>video {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+button {
+    background-color: transparent;
+    color: white;
+    border-color: transparent;
 }

@@ -13,7 +13,7 @@
 
 <body>
     <h1 class="text-center"><strong>Pomodoro Web Application</strong></h1>
-    <main style="margin: 40px;">
+    <main>
         <div class="container">
             <div class="row">
                 <div class="col" id="clock">
@@ -21,6 +21,20 @@
                         <li><span id="minutes"></span>Minutes</li>
                         <li><span id="seconds"></span>Seconds</li>
                     </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" id="sliders">
+                    <div id="work-label">
+                        <h5>
+                            Work: 25' | Break: 5'
+                        </h5>
+                    </div>
+                    <input id="work-slider" type="range" min="0" max="2" value="0">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" id="buttons">
                     <ul>
                         <li>
                             <button id="volume">
@@ -37,20 +51,14 @@
                                 <i class="fa fa-fw fa-forward fa-2x"></i>
                             </button>
                         </li>
-                        <li></li>
                     </ul>
                 </div>
             </div>
-            <div class="row">
-                <div class="col" id="sliders">
-                    <div id="work-label">
-                        <h5>
-                            Work: 25' | Break: 5'
-                        </h5>
-                    </div>
-                    <input id="work-slider" type="range" min="0" max="2" value="0">
-                </div>
-            </div>
+        </div>
+        <div id="backgroundMedia">
+            <video autoplay muted loop>
+                <source src="assets/video/hogwartsLibrary.mp4" type="video/mp4">
+            </video>
         </div>
     </main>
     <footer class="footer-basic">

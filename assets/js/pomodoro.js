@@ -28,10 +28,12 @@ function changeSession() {
         work = false;
         remaining = breakValues[document.getElementById("work-slider").value] * 60;
         music.src = breakAudioFiles[document.getElementById("work-slider").value];
+        document.getElementById("backgroundMedia").getElementsByTagName("video")[0].src = "assets/video/hogwartsOutside.mp4";
     } else {
         work = true;
         remaining = workValues[document.getElementById("work-slider").value] * 60;
         music.src = workAudioFiles[document.getElementById("work-slider").value];
+        document.getElementById("backgroundMedia").getElementsByTagName("video")[0].src = "assets/video/hogwartsLibrary.mp4";
     }
 
     fresh = true;
@@ -121,14 +123,16 @@ document.getElementById("play").addEventListener("click", function () {
     if (play == true) {
         document.getElementById("play").innerHTML = "<i class=\"fa fa-fw fa-play-circle fa-2x\"></i>";
         document.getElementById("skip").removeAttribute("disabled", "");
-        document.getElementById("work-slider").removeAttribute("disabled", "");
+        document.getElementById("work-label").removeAttribute("hidden", "");
+        document.getElementById("work-slider").removeAttribute("hidden", "");
         clearInterval(timer);
         pauseMusic();
         play = false;
     } else {
         document.getElementById("play").innerHTML = "<i class=\"fa fa-fw fa-pause-circle fa-2x\"></i>";
         document.getElementById("skip").setAttribute("disabled", "");
-        document.getElementById("work-slider").setAttribute("disabled", "");
+        document.getElementById("work-label").setAttribute("hidden", "");
+        document.getElementById("work-slider").setAttribute("hidden", "");
         timer = setInterval(startCountdown, 1000);
         if (fresh == true) {
             playBell();

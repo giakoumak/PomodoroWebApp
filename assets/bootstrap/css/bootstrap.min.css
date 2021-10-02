@@ -69,8 +69,14 @@
     }
 }
 
+html {
+    margin: 0;
+    height: 100%;
+}
+
 body {
     margin: 0;
+    height: 100%;
     font-family: var(--bs-body-font-family);
     font-size: var(--bs-body-font-size);
     font-weight: var(--bs-body-font-weight);
@@ -168,11 +174,8 @@ address {
     line-height: inherit
 }
 
-ol, ul {
-    padding-left: 2rem
-}
-
 dl, ol, ul {
+    padding: 0;
     margin-top: 0;
     margin-bottom: 1rem
 }
