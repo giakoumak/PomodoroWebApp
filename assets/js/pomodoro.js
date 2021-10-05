@@ -3,13 +3,13 @@
 var workValues = [25, 45, 50];
 var breakValues = [5, 15, 10];
 var workAudioFiles = [
-    "assets/music/gryffindor25.mp3"
+    "assets/music/hogwartsLibrary.mp3"
 ];
 var breakAudioFiles = [
-    "assets/music/hagridsHut5.mp3"
+    "assets/music/hogwartsOutside.mp3"
 ];
 
-var music = new Audio(workAudioFiles[document.getElementById("work-slider").value]);
+var music = initMusic();
 var bell = new Audio("assets/notifications/metalGong.mp3");
 
 var work = true;
@@ -22,20 +22,35 @@ var remaining = workValues[document.getElementById("work-slider").value] * 60;
 
 // FUNCTIONS SECTION
 
+function initMusic() {
+    var music = new Audio(workAudioFiles[0]);
+    music.loop = true;
+
+    return music;
+}
+
 // Change session from work to break and vice versa
 function changeSession() {
     if (work == true) {
-        work = false;
-        remaining = breakValues[document.getElementById("work-slider").value] * 60;
-        music.src = breakAudioFiles[document.getElementById("work-slider").value];
-        document.getElementById("backgroundMedia").getElementsByTagName("video")[0].src = "assets/video/hogwartsOutside.mp4";
+        setBreakSession();
     } else {
-        work = true;
-        remaining = workValues[document.getElementById("work-slider").value] * 60;
-        music.src = workAudioFiles[document.getElementById("work-slider").value];
-        document.getElementById("backgroundMedia").getElementsByTagName("video")[0].src = "assets/video/hogwartsLibrary.mp4";
+        setWorkSession();
     }
+}
 
+function setWorkSession() {
+    work = true;
+    remaining = workValues[document.getElementById("work-slider").value] * 60;
+    music.src = workAudioFiles[0];
+    document.getElementById("backgroundMedia").getElementsByTagName("video")[0].src = "assets/video/hogwartsLibrary.mp4";
+    fresh = true;
+}
+
+function setBreakSession() {
+    work = false;
+    remaining = breakValues[document.getElementById("work-slider").value] * 60;
+    music.src = breakAudioFiles[0];
+    document.getElementById("backgroundMedia").getElementsByTagName("video")[0].src = "assets/video/hogwartsOutside.mp4";
     fresh = true;
 }
 
@@ -156,5 +171,6 @@ document.getElementById("work-slider").addEventListener("change", function () {
 
     remaining = workValues[this.value] * 60;
 
+    setWorkSession();
     displayCountdown();
 });
